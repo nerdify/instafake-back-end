@@ -1,0 +1,14 @@
+type Post @model(class: "App\\Domain\\Posts\\Models\\Post") {
+  "A list of comments associated with the post."
+  comments: [Comment!]! @hasMany(type: "connection")
+  "The post's description."
+  description: String
+  "Globally unique identifier."
+  id: ID! @globalId
+  "User that created the post."
+  user: User! @belongsTo
+}
+
+extend type Query {
+  post(id: ID! @globalId(decode: "ID") @eq): Post @find
+}

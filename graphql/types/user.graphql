@@ -1,0 +1,20 @@
+type User @model(class: "App\\Domain\\Users\\Models\\User") {
+  "The user's email address."
+  email: String!
+  "The user's first name."
+  firstName: String! @rename(attribute: "first_name")
+  "Globally unique identifier."
+  id: ID! @globalId
+  "The user's last name."
+  lastName: String! @rename(attribute: "last_name")
+  "The full name of the user, based on firstName and lastName."
+  name: String! @method(name: "name")
+  "A list of posts associated with the user."
+  posts: [Post!]! @hasMany(type: "connection")
+  "The user's username."
+  username: String!
+}
+
+extend type Query {
+  user(id: ID! @globalId(decode: "ID") @eq): User @find
+}

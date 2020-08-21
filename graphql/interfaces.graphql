@@ -1,0 +1,19 @@
+"Entities that can be deleted."
+interface Deletable {
+  "Check if the current viewer can delete this object."
+  viewerCanDelete: Boolean!
+}
+
+"Represents a type that can be retrieved by a URL."
+interface UniformResourceLocatable {
+  "The HTML path to this resource."
+  resourcePath: URI!
+  "The URL to this resource."
+  url: URI!
+}
+
+"Entities that can be updated."
+interface Updatable {
+  "Check if the current viewer can update this object."
+  viewerCanUpdate: Boolean!
+}

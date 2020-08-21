@@ -1,0 +1,10 @@
+type Comment @model(class: "App\\Domain\\Comments\\Models\\Comment") {
+  "Globally unique identifier."
+  id: ID! @globalId
+  "Post where the comment was created."
+  post: Post! @belongsTo
+  "User that created the comment."
+  user: User! @belongsTo
+  "The post's text."
+  text: String
+}

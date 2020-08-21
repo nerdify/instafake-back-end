@@ -1,0 +1,12 @@
+includes:
+  - vendor/bensampo/laravel-enum/extension.neon
+  - vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+  checkMissingIterableValueType: false
+  level: 8
+
+  paths:
+    - app
+
+  ignoreErrors:

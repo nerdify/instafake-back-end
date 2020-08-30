@@ -15,6 +15,7 @@ $factory->define(
             'post_id' => $faker->randomElement(Post::pluck('id')) ?? factory(Post::class),
             'user_id' => $faker->randomElement(User::pluck('id')) ?? factory(User::class),
 
+            'is_root' => false,
             'text' => $faker->paragraph,
         ];
     }

@@ -11,4 +11,5 @@ type Post @model(class: "App\\Domain\\Posts\\Models\\Post") {
 
 extend type Query {
   post(id: ID! @globalId(decode: "ID") @eq): Post @find
+  posts: [Post!]! @paginate(type: "connection")
 }

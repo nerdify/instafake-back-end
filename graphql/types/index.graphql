@@ -1,3 +1,4 @@
 #import comment.graphql
+#import like.graphql
 #import post.graphql
 #import user.graphql

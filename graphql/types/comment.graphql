@@ -1,6 +1,8 @@
 type Comment @model(class: "App\\Domain\\Comments\\Models\\Comment") {
   "Globally unique identifier."
   id: ID! @globalId
+  "A list of likes associated with the comment."
+  likes: [Like!]! @morphMany(type: "connection")
   "Post where the comment was created."
   post: Post! @belongsTo
   "User that created the comment."
@@ -16,10 +18,11 @@ input CreateCommentInput {
 }
 
 type CreateCommentPayload {
-  comment: Comment!
+  commentEdge: CommentEdge!
   parent: Comment
 }
 
 extend type Mutation @namespace(field: "App\\GraphQL\\Mutations\\Comments") {
-  createComment(input: CreateCommentInput! @spread): CreateCommentPayload @field(resolver: "CreateComment")
+  createComment(input: CreateCommentInput! @spread): CreateCommentPayload
+    @field(resolver: "CreateComment")
 }

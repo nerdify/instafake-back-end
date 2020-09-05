@@ -3,6 +3,7 @@
 namespace App\GraphQL\Mutations\Comments;
 
 use App\Domain\Comments\Models\Comment;
+use Nuwave\Lighthouse\Pagination\Cursor;
 
 class CreateComment
 {
@@ -16,6 +17,12 @@ class CreateComment
             ]
         );
 
-        return compact('comment');
+        return [
+            'parent' => null,
+            'commentEdge' => [
+                'cursor' => Cursor::encode(Comment::count()),
+                'node' => $comment,
+            ],
+        ];
     }
 }

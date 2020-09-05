@@ -1,0 +1,24 @@
+union Likeable = Comment | Post
+
+type Like @model(class: "App\\Domain\\Likes\\Models\\Like") {
+  "Globally unique identifier."
+  id: ID! @globalId
+  ""
+  likeable: Likeable! @morphTo
+  "User that created the like."
+  user: User! @belongsTo
+}
+
+input AddLikeInput {
+  subjectId: ID! @globalId
+}
+
+type AddLikePayload {
+  like: Like!
+  subject: Likeable!
+}
+
+extend type Mutation @namespace(field: "App\\GraphQL\\Mutations\\Likes") {
+  addLike(input: AddLikeInput! @spread): AddLikePayload
+    @field(resolver: "AddLike")
+}

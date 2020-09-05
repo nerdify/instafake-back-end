@@ -5,6 +5,8 @@ type Post @model(class: "App\\Domain\\Posts\\Models\\Post") {
   description: String
   "Globally unique identifier."
   id: ID! @globalId
+  "A list of likes associated with the comment."
+  likes: [Like!]! @morphMany(type: "connection")
   "User that created the post."
   user: User! @belongsTo
 }

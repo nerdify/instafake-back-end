@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Domain\Comments\Models\Comment;
+use App\Domain\Posts\Models\Post;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +27,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Relation::morphMap(
+            [
+                'comments' => Comment::class,
+                'posts' => Post::class,
+            ]
+        );
     }
 }

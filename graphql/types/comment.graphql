@@ -8,3 +8,18 @@ type Comment @model(class: "App\\Domain\\Comments\\Models\\Comment") {
   "The post's text."
   text: String
 }
+
+input CreateCommentInput {
+  postId: ID! @globalId(decode: "ID")
+  text: String!
+  userId: ID! @globalId(decode: "ID")
+}
+
+type CreateCommentPayload {
+  comment: Comment!
+  parent: Comment
+}
+
+extend type Mutation @namespace(field: "App\\GraphQL\\Mutations\\Comments") {
+  createComment(input: CreateCommentInput! @spread): CreateCommentPayload @field(resolver: "CreateComment")
+}

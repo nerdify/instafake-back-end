@@ -3,6 +3,7 @@
 namespace App\GraphQL\Types;
 
 use App\Domain\Comments\Models\Comment as CommentModel;
+use Nuwave\Lighthouse\Schema\Context;
 
 class Comment
 {

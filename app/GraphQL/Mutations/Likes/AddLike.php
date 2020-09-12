@@ -6,10 +6,11 @@ use App\Domain\Comments\Models\Comment;
 use App\Domain\Posts\Models\Post;
 use GraphQL\Error\UserError;
 use Illuminate\Database\Eloquent\Model;
+use Nuwave\Lighthouse\Schema\Context;
 
 class AddLike
 {
-    public function __invoke($root, array $args)
+    public function __invoke($root, array $args, Context $context)
     {
         /** @var Comment|Post $model */
         $model = $this->getModel(...$args['subjectId']);
@@ -22,7 +23,7 @@ class AddLike
 
         $like = $model->likes()->create(
             [
-                'user_id' => 1,
+                'user_id' => $context->user()->id,
             ]
         );
 

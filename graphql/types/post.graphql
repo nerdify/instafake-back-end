@@ -2,7 +2,7 @@ enum PostCommentsFields {
   CREATED_AT @enum(value: "created_at")
 }
 
-type Post @model(class: "App\\Domain\\Posts\\Models\\Post") {
+type Post implements Likeable @model(class: "App\\Domain\\Posts\\Models\\Post") {
   "A list of comments associated with the post."
   comments(
     orderBy: _ @orderBy(columnsEnum: "PostCommentsFields")
@@ -11,13 +11,15 @@ type Post @model(class: "App\\Domain\\Posts\\Models\\Post") {
   description: String
   "Globally unique identifier."
   id: ID! @globalId
-  "A list of likes associated with the comment."
+  "A list of likes associated with the post."
   likes: [Like!]! @morphMany(type: "connection")
   "User that created the post."
   user: User! @belongsTo
+  "Returns a boolean indicating whether the viewing user has liked this post."
+  viewerHasLiked: Boolean! @field(resolver: "App\\GraphQL\\Types\\Post@viewerHasLiked")
 }
 
-extend type Query {
+extend type Query @guard {
   post(id: ID! @globalId(decode: "ID") @eq): Post @find
   posts: [Post!]! @paginate(type: "connection")
 }

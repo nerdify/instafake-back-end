@@ -1,4 +1,4 @@
-type Comment @model(class: "App\\Domain\\Comments\\Models\\Comment") {
+type Comment implements Likeable @model(class: "App\\Domain\\Comments\\Models\\Comment") {
   "Globally unique identifier."
   id: ID! @globalId
   "A list of likes associated with the comment."
@@ -9,6 +9,8 @@ type Comment @model(class: "App\\Domain\\Comments\\Models\\Comment") {
   user: User! @belongsTo
   "The post's text."
   text: String
+  "Returns a boolean indicating whether the viewing user has liked this comment."
+  viewerHasLiked: Boolean! @field(resolver: "App\\GraphQL\\Types\\Comment@viewerHasLiked")
 }
 
 input CreateCommentInput {
@@ -22,7 +24,7 @@ type CreateCommentPayload {
   parent: Comment
 }
 
-extend type Mutation @namespace(field: "App\\GraphQL\\Mutations\\Comments") {
+extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Comments") {
   createComment(input: CreateCommentInput! @spread): CreateCommentPayload
     @field(resolver: "CreateComment")
 }

@@ -1,4 +1,9 @@
-union Likeable = Comment | Post
+interface Likeable {
+  "A list of likes associated with the likeable."
+  likes: [Like!]!
+  "Returns a boolean indicating whether the viewing user has liked this likeable."
+  viewerHasLiked: Boolean!
+}
 
 type Like @model(class: "App\\Domain\\Likes\\Models\\Like") {
   "Globally unique identifier."
@@ -18,7 +23,8 @@ type AddLikePayload {
   subject: Likeable!
 }
 
-extend type Mutation @namespace(field: "App\\GraphQL\\Mutations\\Likes") {
+extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Likes") {
   addLike(input: AddLikeInput! @spread): AddLikePayload
+    @can(ability: "create", injectArgs: true, model: "App\\Domain\\Likes\\Models\\Like")
     @field(resolver: "AddLike")
 }

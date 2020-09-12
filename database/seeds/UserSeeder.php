@@ -7,6 +7,26 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        factory(User::class, 10)->create();
+        $emails = [
+            'calonzo@getnerdify.com',
+            'carlos@getnerdify.com',
+            'eli@getnerdify.com',
+            'fernando@getnerdify.com',
+            'hosmel@getnerdify.com',
+        ];
+        $stack = [];
+
+        foreach ($emails as $email) {
+            /** @var User $user */
+            $user = factory(User::class)->create(
+                [
+                    'email' => $email,
+                ]
+            );
+
+            $token = $user->createToken('Seeder');
+
+            array_push($stack, [$email => $token->plainTextToken]);
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace App\GraphQL\Mutations\Likes;
 
 use App\Domain\Comments\Models\Comment;
 use App\Domain\Posts\Models\Post;
+use GraphQL\Error\UserError;
 use Illuminate\Database\Eloquent\Model;
 
 class AddLike
@@ -12,6 +13,12 @@ class AddLike
     {
         /** @var Comment|Post $model */
         $model = $this->getModel(...$args['subjectId']);
+
+        throw_unless(
+            $model,
+            UserError::class,
+            'The given subjectId does not exists.'
+        );
 
         $like = $model->likes()->create(
             [

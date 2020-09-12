@@ -1,6 +1,12 @@
+enum PostCommentsFields {
+  CREATED_AT @enum(value: "created_at")
+}
+
 type Post @model(class: "App\\Domain\\Posts\\Models\\Post") {
   "A list of comments associated with the post."
-  comments: [Comment!]! @hasMany(type: "connection")
+  comments(
+    orderBy: _ @orderBy(columnsEnum: "PostCommentsFields")
+  ): [Comment!]! @hasMany(type: "connection")
   "The post's description."
   description: String
   "Globally unique identifier."

@@ -14,7 +14,6 @@ class UserSeeder extends Seeder
             'fernando@getnerdify.com',
             'hosmel@getnerdify.com',
         ];
-        $stack = [];
 
         foreach ($emails as $email) {
             /** @var User $user */
@@ -24,9 +23,7 @@ class UserSeeder extends Seeder
                 ]
             );
 
-            $token = $user->createToken('Seeder');
-
-            array_push($stack, [$email => $token->plainTextToken]);
+            $user->createToken('Seeder');
         }
     }
 }

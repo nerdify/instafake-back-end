@@ -30,7 +30,8 @@ class User extends Authenticatable
 
     public function bookmarks(): BelongsToMany
     {
-        return $this->belongsToMany(Post::class, 'post_user');
+        return $this->belongsToMany(Post::class, 'post_user')
+            ->withTimestamps();
     }
 
     public function posts(): HasMany

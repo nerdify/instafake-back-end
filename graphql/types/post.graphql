@@ -38,3 +38,7 @@ extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Posts") 
   createBookmark(input: CreateBookmarkInput! @spread): CreateBookmarkPayload
     @field(resolver: "CreateBookmark")
 }
+
+extend type Subscription @namespace(field: "App\\GraphQL\\Subscriptions\\Posts") {
+  postUpdated: Post @subscription(class: "PostUpdated")
+}

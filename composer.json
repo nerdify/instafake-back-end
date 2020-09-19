@@ -17,6 +17,7 @@
         "laravel/framework": "^7.24",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.0",
+        "laravel/vapor-core": "^2.9",
         "nuwave/lighthouse": "dev-master",
         "spatie/laravel-medialibrary": "^8.5"
     },

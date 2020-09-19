@@ -12,7 +12,7 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
 
-            $table->string('description');
+            $table->text('description');
 
             $table->timestamps();
         });

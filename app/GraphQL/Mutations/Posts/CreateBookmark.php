@@ -13,17 +13,12 @@ class CreateBookmark
     {
         /** @var User $user */
         $user = $context->user();
-
         $post = Post::find($args['postId']);
 
         $user->bookmarks()->attach($post->id);
 
         return [
-            'parent' => null,
-            'commentEdge' => [
-                'cursor' => Cursor::encode(Post::count()),
-                'node' => $post,
-            ],
+            'post' => $post,
         ];
     }
 }

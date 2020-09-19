@@ -16,7 +16,7 @@ type Post implements Likeable @model(class: "App\\Domain\\Posts\\Models\\Post") 
   "User that created the post."
   user: User! @belongsTo
   "Returns a boolean indicating whether the viewing user has saved this post."
-  viewerHasBookmarked: Boolean! @fiedl(resolver: "App\\GraphQL\\Types\\Post@viewerHasBookmarked")
+  viewerHasBookmarked: Boolean! @field(resolver: "App\\GraphQL\\Types\\Post@viewerHasBookmarked")
   "Returns a boolean indicating whether the viewing user has liked this post."
   viewerHasLiked: Boolean! @field(resolver: "App\\GraphQL\\Types\\Post@viewerHasLiked")
 }
@@ -26,13 +26,12 @@ extend type Query @guard {
   posts: [Post!]! @paginate(type: "connection")
 }
 
-input CreateBookmarkInput {
+input CreateBookmarkInput @validator {
   postId: ID! @globalId(decode: "ID")
 }
 
 type CreateBookmarkPayload {
-  commentEdge: PostEdge!
-  parent: Post
+  post: Post
 }
 
 extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Posts") {

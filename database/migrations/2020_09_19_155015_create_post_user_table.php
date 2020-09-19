@@ -19,6 +19,8 @@ class CreatePostUserTable extends Migration
             $table->foreignId('user_id')->constrained();
 
             $table->timestamps();
+
+            $table->unique(['post_id', 'user_id']);
         });
     }
 

@@ -26,7 +26,7 @@ extend type Query @guard {
   posts: [Post!]! @paginate(type: "connection")
 }
 
-CreateBookmarkInput {
+input CreateBookmarkInput {
   postId: ID! @globalId(decode: "ID")
 }
 
@@ -37,5 +37,5 @@ type CreateBookmarkPayload {
 
 extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Posts") {
   createBookmark(input: CreateBookmarkInput! @spread): CreateBookmarkPayload
-  @field(resolver: "CreateBookmark")
+    @field(resolver: "CreateBookmark")
 }

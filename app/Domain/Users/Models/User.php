@@ -28,13 +28,13 @@ class User extends Authenticatable
         return $this->first_name.' '.$this->last_name;
     }
 
+    public function bookmarks(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'post_id');
+    }
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
-    }
-
-    public function bookmarks(): BelongsToMany
-    {
-        return $this->belongsToMany(Post::class);
     }
 }

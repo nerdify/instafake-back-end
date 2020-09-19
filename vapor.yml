@@ -8,7 +8,6 @@ environments:
     database: nerdify
     memory: 1024
     runtime: php-7.4
-    scheduler: false
 
     layers:
       - vapor:php-7.4
@@ -28,7 +27,6 @@ environments:
     domain: instafake-staging.getnerdify.com
     memory: 1024
     runtime: php-7.4
-    scheduler: false
 
     layers:
       - vapor:php-7.4

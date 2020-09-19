@@ -6,6 +6,7 @@ use App\Domain\Comments\Models\Comment;
 use App\Domain\Posts\Models\Post;
 use GraphQL\Error\UserError;
 use Illuminate\Database\Eloquent\Model;
+use Nuwave\Lighthouse\Execution\Utils\Subscription;
 use Nuwave\Lighthouse\Schema\Context;
 
 class AddLike
@@ -27,6 +28,8 @@ class AddLike
             ]
         );
 
+        $this->sendSubscription($model);
+
         return [
             'like' => $like,
             'subject' => $model,
@@ -45,5 +48,12 @@ class AddLike
         }
 
         return $class::find(trim($id));
+    }
+
+    protected function sendSubscription(Model $model)
+    {
+        if (class_basename($model) == 'Post') {
+            Subscription::broadcast('postUpdated', $model);
+        }
     }
 }

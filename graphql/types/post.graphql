@@ -40,5 +40,5 @@ extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Posts") 
 }
 
 extend type Subscription @namespace(field: "App\\GraphQL\\Subscriptions\\Posts") {
-  postUpdated: Post @subscription(class: "PostUpdated")
+  postUpdated: Post @subscription(class: "App\\GraphQL\\Subscriptions\\Posts\\PostUpdated")
 }

@@ -4,7 +4,6 @@ namespace App\GraphQL\Mutations\Posts;
 
 use App\Domain\Posts\Models\Post;
 use App\Domain\Users\Models\User;
-use Nuwave\Lighthouse\Pagination\Cursor;
 use Nuwave\Lighthouse\Schema\Context;
 
 class CreateBookmark

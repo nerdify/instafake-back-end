@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Types;
 
+use App\Domain\Likes\Models\Like;
 use App\Domain\Posts\Models\Post as PostModel;
 use App\Domain\Users\Models\User;
 use Nuwave\Lighthouse\Schema\Context;
@@ -17,9 +18,7 @@ class Post
             return false;
         }
 
-        return $user->bookmarks()
-            ->where('post_id', $post->id)
-            ->exists();
+        return $post->users->contains($user);
     }
 
     public function viewerHasLiked(PostModel $post, array $args, Context $context): bool
@@ -31,8 +30,6 @@ class Post
             return false;
         }
 
-        return $post->likes()
-            ->where('user_id', $user->id)
-            ->exists();
+        return $post->likes->contains(fn(Like $like) => $like->user_id == $user->id);
     }
 }

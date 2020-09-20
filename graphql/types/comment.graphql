@@ -10,7 +10,7 @@ type Comment implements Likeable @model(class: "App\\Domain\\Comments\\Models\\C
   "The post's text."
   text: String
   "Returns a boolean indicating whether the viewing user has liked this comment."
-  viewerHasLiked: Boolean! @field(resolver: "App\\GraphQL\\Types\\Comment@viewerHasLiked")
+  viewerHasLiked: Boolean! @with(relation: "likes") @field(resolver: "App\\GraphQL\\Types\\Comment@viewerHasLiked")
 }
 
 input CreateCommentInput {

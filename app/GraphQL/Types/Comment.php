@@ -3,6 +3,7 @@
 namespace App\GraphQL\Types;
 
 use App\Domain\Comments\Models\Comment as CommentModel;
+use App\Domain\Likes\Models\Like;
 use Nuwave\Lighthouse\Schema\Context;
 
 class Comment
@@ -16,8 +17,6 @@ class Comment
             return false;
         }
 
-        return $comment->likes()
-            ->where('user_id', $user->id)
-            ->exists();
+        return $comment->likes->contains(fn(Like $like) => $like->user_id == $user->id);
     }
 }

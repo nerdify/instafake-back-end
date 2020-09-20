@@ -16,9 +16,9 @@ type Post implements Likeable @model(class: "App\\Domain\\Posts\\Models\\Post") 
   "User that created the post."
   user: User! @belongsTo
   "Returns a boolean indicating whether the viewing user has saved this post."
-  viewerHasBookmarked: Boolean! @field(resolver: "App\\GraphQL\\Types\\Post@viewerHasBookmarked")
+  viewerHasBookmarked: Boolean! @with(relation: "users") @field(resolver: "App\\GraphQL\\Types\\Post@viewerHasBookmarked")
   "Returns a boolean indicating whether the viewing user has liked this post."
-  viewerHasLiked: Boolean! @field(resolver: "App\\GraphQL\\Types\\Post@viewerHasLiked")
+  viewerHasLiked: Boolean! @with(relation: "likes") @field(resolver: "App\\GraphQL\\Types\\Post@viewerHasLiked")
 }
 
 extend type Query @guard {

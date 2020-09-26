@@ -1,8 +1,11 @@
-"An ISO-8601 encoded UTC date time string. Example value: `2019-07-03T20:47:55Z`"
+"An ISO-8601 encoded UTC date time string. Example value: `2019-07-03T20:47:55Z`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTimeTz")
 
 "A [RFC 5321](https://tools.ietf.org/html/rfc5321) compliant email."
 scalar Email @scalar(class: "App\\GraphQL\\Scalars\\Email")
+
+"Can be used as an argument to upload files using https://github.com/jaydenseric/graphql-multipart-request-spec."
+scalar Upload @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
 
 "An RFC 3986 and RFC 3987 compliant URI string."
 scalar URI @scalar(class: "App\\GraphQL\\Scalars\\Uri")

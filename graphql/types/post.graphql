@@ -2,6 +2,10 @@ enum PostCommentsFields {
   CREATED_AT @enum(value: "created_at")
 }
 
+type Image {
+  url: URI! @field(resolver: "App\\GraphQL\\Types\\Post@imageUrl")
+}
+
 type Post implements Likeable @model(class: "App\\Domain\\Posts\\Models\\Post") {
   "A list of comments associated with the post."
   comments(
@@ -11,6 +15,8 @@ type Post implements Likeable @model(class: "App\\Domain\\Posts\\Models\\Post") 
   description: String
   "Globally unique identifier."
   id: ID! @globalId
+  ""
+  images: [Image!]! @morphMany(relation: "media")
   "A list of likes associated with the post."
   likes: [Like!]! @morphMany(type: "connection")
   "User that created the post."
@@ -34,9 +40,21 @@ type CreateBookmarkPayload {
   post: Post
 }
 
+input CreatePostInput {
+  photos: [Upload!]!
+  text: String!
+}
+
+type CreatePostPayload {
+  post: Post!
+}
+
 extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Posts") {
   createBookmark(input: CreateBookmarkInput! @spread): CreateBookmarkPayload
     @field(resolver: "CreateBookmark")
+
+  createPost(input: CreatePostInput!): CreatePostPayload
+    @field(resolver: "CreatePost")
 }
 
 extend type Subscription @namespace(field: "App\\GraphQL\\Subscriptions\\Posts") {

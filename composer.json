@@ -18,7 +18,8 @@
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.0",
         "laravel/vapor-core": "^2.9",
-        "laravel/vapor-ui": "^0.0.8",
+        "laravel/vapor-ui": "^0.0.10",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "nuwave/lighthouse": "dev-master",
         "pusher/pusher-php-server": "^4.1",
         "spatie/laravel-medialibrary": "^8.5"

@@ -12,7 +12,9 @@ class UserSeeder extends Seeder
             'carlos@getnerdify.com',
             'eli@getnerdify.com',
             'fernando@getnerdify.com',
+            'gustavo@getnerdify.com',
             'hosmel@getnerdify.com',
+            'jonathan@getnerdify.com',
         ];
 
         foreach ($emails as $email) {

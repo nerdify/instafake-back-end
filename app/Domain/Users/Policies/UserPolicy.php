@@ -11,6 +11,7 @@ class UserPolicy
 
     public function uploadFiles(User $user)
     {
+        logger($user);
         return true;
     }
 }

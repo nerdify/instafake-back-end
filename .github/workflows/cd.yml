@@ -1,0 +1,52 @@
+name: Continuous deployment
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          extensions: curl, imagick, mbstring, mysqli, pdo_mysql
+          coverage: none
+          php-version: 7.4
+          tools: prestissimo
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Restore composer cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Installing vapor CLI
+        run: |
+          composer global require laravel/vapor-cli --no-ansi --no-interaction --no-progress --no-scripts --no-suggest --prefer-dist -q
+          echo "::add-path::$(composer global config data-dir)/vendor/bin"
+
+      - name: Set VAPOR_ENVIRONMENT_NAME env
+        run: echo "::set-env name=VAPOR_ENVIRONMENT_NAME::$([ $GITHUB_REF == 'refs/heads/master' ] && echo "production" || ([ $GITHUB_REF == 'refs/heads/develop' ] && echo "staging" || echo "pr${{ github.event.number }}"))"
+
+      - name: Deploy to vapor
+        env:
+          VAPOR_API_TOKEN: ${{ secrets.VAPOR_API_TOKEN }}
+        run: |
+          echo $GITHUB_SHA > github_sha.txt
+          vapor secret $VAPOR_ENVIRONMENT_NAME --name=GITHUB_SHA --file=github_sha.txt
+          vapor deploy $VAPOR_ENVIRONMENT_NAME --commit=$GITHUB_SHA

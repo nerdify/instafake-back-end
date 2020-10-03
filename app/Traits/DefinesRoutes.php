@@ -14,6 +14,7 @@ trait DefinesRoutes
      */
     public function ensureRoutesAreDefined()
     {
+        logger('ensureRoutesAreDefined');
         if ($this->app->routesAreCached()) {
             return;
         }

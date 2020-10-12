@@ -15,6 +15,9 @@ type User @model(class: "App\\Domain\\Users\\Models\\User") {
   username: String!
 }
 
+# Queries
+
 extend type Query {
+  "Get an user from an id."
   user(id: ID! @globalId(decode: "ID") @eq): User @find
 }

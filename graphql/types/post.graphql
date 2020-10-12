@@ -2,6 +2,10 @@ enum PostCommentsFields {
   CREATED_AT @enum(value: "created_at")
 }
 
+enum PostsOrderColumn {
+  CREATED_AT @enum(value: "created_at")
+}
+
 type Image {
   url: URI! @field(resolver: "App\\GraphQL\\Types\\Post@imageUrl")
 }
@@ -29,7 +33,7 @@ type Post implements Likeable @model(class: "App\\Domain\\Posts\\Models\\Post") 
 
 extend type Query @guard {
   post(id: ID! @globalId(decode: "ID") @eq): Post @find
-  posts: [Post!]! @paginate(type: "connection")
+  posts(orderBy: _ @orderBy(columnsEnum: "PostsOrderColumn")): [Post!]! @paginate(type: "connection")
 }
 
 input CreateBookmarkInput @validator {

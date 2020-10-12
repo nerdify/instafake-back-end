@@ -8,20 +8,28 @@ interface Likeable {
 type Like @model(class: "App\\Domain\\Likes\\Models\\Like") {
   "Globally unique identifier."
   id: ID! @globalId
-  ""
+  "The like entity for post or comments."
   likeable: Likeable! @morphTo
   "User that created the like."
   user: User! @belongsTo
 }
 
+# Queries
+
+# Inputs
+
 input AddLikeInput {
   subjectId: ID! @globalId
 }
+
+# Payloads
 
 type AddLikePayload {
   like: Like!
   subject: Likeable!
 }
+
+# Mutations
 
 extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Likes") {
   addLike(input: AddLikeInput! @spread): AddLikePayload

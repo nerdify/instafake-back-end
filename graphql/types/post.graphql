@@ -16,6 +16,8 @@ type Post implements Likeable @model(class: "App\\Domain\\Posts\\Models\\Post") 
   comments(
     orderBy: _ @orderBy(columnsEnum: "PostCommentsFields")
   ): [Comment!]! @hasMany(type: "connection")
+  "Post Root Comment"
+  rootComment: Comment @field(resolver: "App\\GraphQL\\Types\\Post@rootComment")
   "The post's description."
   description: String
   "Globally unique identifier."

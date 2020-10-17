@@ -18,7 +18,7 @@ class Post
 
     public function rootComment(PostModel $post): Comment
     {
-        return PostModel::comments()->where('is_root', true)->first();
+        return $post->comments()->where('is_root', true)->first();
     }
 
     public function viewerHasBookmarked(PostModel $post, array $args, Context $context): bool

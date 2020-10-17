@@ -5,11 +5,9 @@ namespace App\GraphQL\Mutations\Likes;
 use App\Domain\Comments\Models\Comment;
 use App\Domain\Posts\Models\Post;
 use GraphQL\Error\UserError;
-use Illuminate\Database\Eloquent\Model;
-use Nuwave\Lighthouse\Execution\Utils\Subscription;
 use Nuwave\Lighthouse\Schema\Context;
 
-class AddLike extends BaseLike
+class RemoveLike extends BaseLike
 {
     public function __invoke($root, array $args, Context $context)
     {
@@ -22,19 +20,12 @@ class AddLike extends BaseLike
             'The given subjectId does not exists.'
         );
 
-        $like = $model->likes()->create(
-            [
-                'user_id' => $context->user()->id,
-            ]
-        );
+        $model->likes()->delete();
 
         $this->sendSubscription($model);
 
         return [
-            'like' => $like,
             'subject' => $model,
         ];
     }
-
-
 }

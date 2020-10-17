@@ -18,10 +18,6 @@ class Post extends Model implements HasMedia
 
     const POSTS_COLLECTION = 'posts';
 
-    public function scopeNoRoot($query) {
-        return $query->where('is_root', false);
-    }
-
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);

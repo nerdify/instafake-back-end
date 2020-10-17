@@ -23,7 +23,8 @@ class UserSeeder extends Seeder
                 ]
             );
 
-            $user->createToken('Seeder');
+            $token = $user->createToken('Seeder');
+            logger($token->plainTextToken);
         }
     }
 }

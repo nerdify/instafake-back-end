@@ -4,7 +4,7 @@ namespace App\GraphQL\Types;
 
 use App\Domain\Likes\Models\Like;
 use App\Domain\Posts\Models\Post as PostModel;
-use App\Domain\Posts\Models\Comment;
+use App\Domain\Comments\Models\Comment;
 use App\Domain\Users\Models\User;
 use Nuwave\Lighthouse\Schema\Context;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

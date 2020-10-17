@@ -15,7 +15,7 @@ type Post implements Likeable @model(class: "App\\Domain\\Posts\\Models\\Post") 
   "A list of comments associated with the post."
   comments(
     orderBy: _ @orderBy(columnsEnum: "PostCommentsFields")
-  ): [Comment!]! @hasMany(type: "connection")
+  ): [Comment!]! @scope(name: "noRoot") @hasMany(type: "connection")
   "Post Root Comment"
   rootComment: Comment @field(resolver: "App\\GraphQL\\Types\\Post@rootComment")
   "The post's description."

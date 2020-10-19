@@ -22,10 +22,18 @@ input AddLikeInput {
   subjectId: ID! @globalId
 }
 
+input RemoveLikeInput {
+  subjectId: ID! @globalId
+}
+
 # Payloads
 
 type AddLikePayload {
   like: Like!
+  subject: Likeable!
+}
+
+type RemoveLikePayload {
   subject: Likeable!
 }
 
@@ -35,4 +43,8 @@ extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Likes") 
   addLike(input: AddLikeInput! @spread): AddLikePayload
     @can(ability: "create", injectArgs: true, model: "App\\Domain\\Likes\\Models\\Like")
     @field(resolver: "AddLike")
+
+  removeLike(input: RemoveLikeInput! @spread): RemoveLikePayload
+    @can(ability: "delete", injectArgs: true, model: "App\\Domain\\Likes\\Models\\Like")
+    @field(resolver: "RemoveLike")
 }

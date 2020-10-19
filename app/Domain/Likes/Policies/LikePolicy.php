@@ -34,4 +34,27 @@ class LikePolicy
             ->where('user_id', $user->id)
             ->doesntExist();
     }
+
+    public function delete(User $user, $injectArgs)
+    {
+        $class = [
+                'Comment' => Comment::class,
+                'Post' => Post::class,
+            ][$injectArgs['subjectId'][0]] ?? null;
+
+        if (! $class) {
+            return false;
+        }
+
+        /** @var Comment|Post $model */
+        $model = $class::find(trim($injectArgs['subjectId'][1]));
+
+        if (! $model) {
+            return false;
+        }
+
+        return $model->likes()
+            ->where('user_id', $user->id)
+            ->exists();
+    }
 }

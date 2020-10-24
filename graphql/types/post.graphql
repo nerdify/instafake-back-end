@@ -7,6 +7,7 @@ enum PostsOrderColumn {
 }
 
 type Image {
+  "The url of the image from a post"
   url: URI! @field(resolver: "App\\GraphQL\\Types\\Post@imageUrl")
 }
 
@@ -14,7 +15,9 @@ type Post implements Likeable @model(class: "App\\Domain\\Posts\\Models\\Post") 
   "A list of comments associated with the post."
   comments(
     orderBy: _ @orderBy(columnsEnum: "PostCommentsFields")
-  ): [Comment!]! @hasMany(type: "connection")
+  ): [Comment!]! @hasMany(type: "connection", scopes: ["noRoot"])
+  "Post Root Comment"
+  rootComment: Comment @field(resolver: "App\\GraphQL\\Types\\Post@rootComment")
   "The post's description."
   description: String
   "Globally unique identifier."
@@ -31,18 +34,36 @@ type Post implements Likeable @model(class: "App\\Domain\\Posts\\Models\\Post") 
   viewerHasLiked: Boolean! @with(relation: "likes") @field(resolver: "App\\GraphQL\\Types\\Post@viewerHasLiked")
 }
 
+# Queries
+
 extend type Query @guard {
+  "Get a post from a given id."
   post(id: ID! @globalId(decode: "ID") @eq): Post @find
-  posts(orderBy: _ @orderBy(columnsEnum: "PostsOrderColumn")): [Post!]! @paginate(type: "connection")
+
+  "Get all posts sort by enum column"
+  posts(orderBy: _ @orderBy(columnsEnum: "PostsOrderColumn")): [Post!]!
+    @paginate(type: "connection")
 }
 
+# Inputs
+
 input CreateBookmarkInput @validator {
+  "The post id for save has a bookmark."
   postId: ID! @globalId(decode: "ID")
 }
 
 input RemoveBookmarkInput @validator {
   postId: ID! @globalId(decode: "ID")
 }
+
+input CreatePostInput {
+  "All photos for create a new post."
+  photos: [Upload!]!
+  "Text comment for the new post."
+  text: String!
+}
+
+# Payloads
 
 type CreateBookmarkPayload {
   post: Post
@@ -52,14 +73,11 @@ type RemoveBookmarkPayload {
   post: Post
 }
 
-input CreatePostInput {
-  photos: [Upload!]!
-  text: String!
-}
-
 type CreatePostPayload {
   post: Post!
 }
+
+# Mutations
 
 extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Posts") {
   createBookmark(input: CreateBookmarkInput! @spread): CreateBookmarkPayload
@@ -71,6 +89,8 @@ extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Posts") 
   createPost(input: CreatePostInput!): CreatePostPayload
     @field(resolver: "CreatePost")
 }
+
+# Subscriptions
 
 extend type Subscription @namespace(field: "App\\GraphQL\\Subscriptions\\Posts") {
   postUpdated: Post @subscription(class: "App\\GraphQL\\Subscriptions\\Posts\\PostUpdated")

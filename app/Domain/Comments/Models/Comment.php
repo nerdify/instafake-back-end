@@ -5,6 +5,7 @@ namespace App\Domain\Comments\Models;
 use App\Domain\Posts\Models\Post;
 use App\Domain\Users\Models\User;
 use App\Domain\Likes\Models\Like;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -23,5 +24,10 @@ class Comment extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeNoRoot($query): Builder
+    {
+        return $query->where('is_root', false);
     }
 }

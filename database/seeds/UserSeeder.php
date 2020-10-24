@@ -22,9 +22,6 @@ class UserSeeder extends Seeder
                     'email' => $email,
                 ]
             );
-
-            $token = $user->createToken('Seeder');
-            logger($token->plainTextToken);
         }
     }
 }

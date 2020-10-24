@@ -20,7 +20,6 @@ jobs:
           extensions: curl, imagick, mbstring, mysqli, pdo_mysql
           coverage: none
           php-version: 7.4
-          tools: prestissimo
 
       - name: Get composer cache directory
         id: composer-cache

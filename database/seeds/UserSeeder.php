@@ -24,8 +24,6 @@ class UserSeeder extends Seeder
                     'email' => $email,
                 ]
             );
-
-            $user->createToken('Seeder');
         }
     }
 }

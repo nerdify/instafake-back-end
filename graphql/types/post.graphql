@@ -52,6 +52,10 @@ input CreateBookmarkInput @validator {
   postId: ID! @globalId(decode: "ID")
 }
 
+input RemoveBookmarkInput @validator {
+  postId: ID! @globalId(decode: "ID")
+}
+
 input CreatePostInput {
   "All photos for create a new post."
   photos: [Upload!]!
@@ -65,6 +69,10 @@ type CreateBookmarkPayload {
   post: Post
 }
 
+type RemoveBookmarkPayload {
+  post: Post
+}
+
 type CreatePostPayload {
   post: Post!
 }
@@ -74,6 +82,9 @@ type CreatePostPayload {
 extend type Mutation @guard @namespace(field: "App\\GraphQL\\Mutations\\Posts") {
   createBookmark(input: CreateBookmarkInput! @spread): CreateBookmarkPayload
     @field(resolver: "CreateBookmark")
+
+  removeBookmark(input: RemoveBookmarkInput! @spread): RemoveBookmarkPayload
+    @field(resolver: "RemoveBookmark")
 
   createPost(input: CreatePostInput!): CreatePostPayload
     @field(resolver: "CreatePost")

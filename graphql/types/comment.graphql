@@ -1,4 +1,5 @@
 type Comment implements Likeable @model(class: "App\\Domain\\Comments\\Models\\Comment") {
+  createdAt: DateTime! @rename(attribute: "created_at")
   "Globally unique identifier."
   id: ID! @globalId
   "A list of likes associated with the comment."

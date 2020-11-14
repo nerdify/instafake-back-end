@@ -22,6 +22,8 @@ type Post implements Likeable @model(class: "App\\Domain\\Posts\\Models\\Post") 
   description: String
   "Globally unique identifier."
   id: ID! @globalId
+  "Created at post"
+  createdAt: DateTime! @rename(attribute: "created_at")
   ""
   images: [Image!]! @morphMany(relation: "media")
   "A list of likes associated with the post."
